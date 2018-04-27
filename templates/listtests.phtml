@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tests</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/apster-ui.css" />
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>All the tests</h1>
+
+        <?php
+
+        function renderSubList($list) {
+            echo '<ul class="ap-tree">';
+            foreach ($list as $name => $listItem) {
+                if (is_array($listItem)) {
+                    echo '<li class="node">' . $name;
+                    renderSubList($listItem);
+                    echo '</li>';
+                } else {
+                    echo '<li class="leaf"><a href="unittest.php?file=' . $listItem . '">' . $name . '</a></li>';
+                }
+            }
+            echo '</ul>';
+        }
+
+        renderSubList($list);
+
+        ?>
+
+        <p><a href="unittest.php?file=all">Run all</a></p>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Error</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/apster-ui.css" />
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Error</h1>
+
+        <p><a href="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>">Back to index</a></p>
+
+        <p><?php echo $error->getMessage(); ?></p>
+
+        <dl>
+            <?php foreach ($error->getTrace() as $index => $trace): ?>
+
+                <dt>
+                    <?php echo isset($trace['function']) ? $trace['function'] : '(anonymous)'; ?>
+                    (
+                    <?php if (isset($trace['args'])): ?>
+                        <?php
+                        foreach ($trace['args'] as $index => $arg) {
+                            if ($index > 0) echo ', ';
+                            if (is_null($arg)) echo 'null';
+                            else if (is_bool($arg)) echo $arg ? 'true' : 'false';
+                            else if (is_array($arg)) echo json_encode($arg);
+                            else if (is_object($arg)) echo '[Object:' . get_class($arg) . ']';
+                            else if (is_string($arg)) echo '"' . $arg . '"';
+                            else echo $arg;
+                        }
+                        ?>
+                    <?php endif; ?>
+                    )
+                </dt>
+                <dd><?php echo isset($trace['file']) ? $trace['file'] . ' at line ' . $trace['line'] : '#global'; ?></dd>
+
+            <?php endforeach; ?>
+        </dl>
+
+    </div>
+
+</body>
+</html>

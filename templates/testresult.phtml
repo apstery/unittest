@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Testresult</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/apster-ui.css" />
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Test results</h1>
+
+        <p><a href="<?php echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); ?>">Back to index</a></p>
+
+        <?php foreach ($test->getTestCases() as $name => $testCase): ?>
+            <?php $summary = $testCase->getTestSummary(); ?>
+
+            <h2><?php echo $name; ?></h2>
+
+            <p>
+                <?php echo $summary['numTestsSucceeded'] . ' / ' . $summary['numTests'] . ' tests succeeded'; ?><br/>
+                <?php echo $summary['numAssertsSucceeded'] . ' / ' . $summary['numAsserts'] . ' assertions succeeded'; ?>
+            </p>
+
+            <dl>
+                <?php foreach ($summary['failMessages'] as $method => $messages): ?>
+                    <?php foreach ($messages as $line => $message): ?>
+                        <dt><?php echo $method; ?>, at line <?php echo $line; ?></dt>
+                        <dd><?php echo $message; ?></dd>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </dl>
+        <?php endforeach; ?>
+
+    </div>
+
+</body>
+</html>
